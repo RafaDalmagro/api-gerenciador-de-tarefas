@@ -3,20 +3,12 @@ import { prisma } from "@/database/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
 
-class TeamController {
+class TaskHistoryController {
     async index(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json();
     }
-
     async create(req: Request, res: Response, next: NextFunction) {
-        const bodySchema = z.object({
-            name: z.string().min(2).max(100),
-            description: z.string().min(10).max(500),
-        });
-
-        const { name, description } = bodySchema.parse(req.body);
-
-        return res.status(200).json({ name, description });
+        return res.status(201).json({ message: "Create" });
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
@@ -32,4 +24,4 @@ class TeamController {
     }
 }
 
-export { TeamController };
+export { TaskHistoryController };
