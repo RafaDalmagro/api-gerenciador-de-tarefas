@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { TaskHistoryController } from "@/controllers/TaskHistoryController";
+import { TaskHistoryController } from "@/controllers/TasksHistoryController";
 
 const taskHistoryRoutes = Router();
 const taskHistoryController = new TaskHistoryController();
