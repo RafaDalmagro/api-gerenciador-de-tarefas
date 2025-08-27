@@ -8,4 +8,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  admin
+  member
+}
 
+enum TaskStatus {
+  pending
+  in_progress
+  completed
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+model Users {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  password     String         @unique
+  role         Role           @default(member)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Team_Members Team_Members[]
+  Tasks        Tasks[]
+  Task_History Task_History[]
+
+  @@map("users")
+}
+
+model Teams {
+  id           Int            @id @default(autoincrement())
+  name         String
+  description  String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Team_Members Team_Members[]
+  Tasks        Tasks[]
+
+  @@map("teams")
+}
+
+model Team_Members {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  teamId    Int
+  createdAt DateTime @default(now())
+
+  user Users @relation(fields: [userId], references: [id])
+  team Teams @relation(fields: [teamId], references: [id])
+
+  @@map("team_members")
+}
+
+model Tasks {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  status      TaskStatus
+  priority    Priority
+  assignedTo  Int
+  teamId      Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user         Users          @relation(fields: [assignedTo], references: [id])
+  team         Teams          @relation(fields: [teamId], references: [id])
+  Task_History Task_History[]
+
+  @@map("tasks")
+}
+
+model Task_History {
+  id        Int        @id @default(autoincrement())
+  taskId    Int
+  changedBy Int
+  oldStatus TaskStatus
+  newStatus TaskStatus
+  changedAt DateTime   @default(now())
+
+  task    Tasks @relation(fields: [taskId], references: [id])
+  changer Users @relation(fields: [changedBy], references: [id])
+
+  @@map("task_history")
+}
