@@ -34,7 +34,7 @@ class UserController {
 
         const hashedPassword = await hash(password, 8);
 
-        await prisma.users.create({
+        const user: User = await prisma.users.create({
             data: {
                 name,
                 email,
@@ -42,7 +42,7 @@ class UserController {
             },
         });
 
-        return res.status(201).json();
+        return res.status(201).json(user);
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
