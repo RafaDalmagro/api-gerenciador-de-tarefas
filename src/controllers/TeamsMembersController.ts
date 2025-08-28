@@ -5,7 +5,7 @@ import { AppError } from "@/utils/appError";
 
 class TeamsMembersController {
     async index(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json();
+        return res.status(200).json({ message: "Index" });
     }
     async create(req: Request, res: Response, next: NextFunction) {
         return res.status(201).json({ message: "Create" });

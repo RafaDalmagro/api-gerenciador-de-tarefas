@@ -6,7 +6,16 @@ import { AppError } from "@/utils/appError";
 
 class UserController {
     async index(req: Request, res: Response, next: NextFunction) {
-        const users = await prisma.users.findMany();
+        const users = await prisma.users.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
 
         return res.status(200).json({ users });
     }
@@ -46,15 +55,76 @@ class UserController {
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ message: "Update" });
+        const bodySchema = z.object({
+            name: z.string().min(3).optional(),
+            role: z.enum(["admin", "member"]).optional(),
+        });
+
+        const paramsSchema = z.object({
+            id: z.string(),
+        });
+
+        const { id } = paramsSchema.parse(req.params);
+        const { name, role } = bodySchema.parse(req.body);
+
+        const userBeforeUpdate = await prisma.users.findUnique({
+            where: { id: Number(id) },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                updatedAt: true,
+            },
+        });
+
+        if (!userBeforeUpdate) {
+            throw new AppError("User not found", 404);
+        }
+
+        const userAfterUpdate: User = await prisma.users.update({
+            data: { name, role },
+            where: { id: Number(id) },
+        });
+
+        const { password, ...userWithoutPassword } = userAfterUpdate;
+
+        return res
+            .status(200)
+            .json({ user: userWithoutPassword, previous: userBeforeUpdate });
     }
 
     async show(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ message: "Show" });
+        const paramsSchema = z.object({
+            id: z.string(),
+        });
+        const { id } = paramsSchema.parse(req.params);
+
+        const user = await prisma.users.findUnique({
+            where: {
+                id: Number(id),
+            },
+        });
+
+        const { password, ...userWithoutPassword } = user || {};
+
+        return res.status(200).json(userWithoutPassword);
     }
 
     async delete(req: Request, res: Response, next: NextFunction) {
-        return res.status(204).json({ message: "Delete" });
+        const paramsSchema = z.object({
+            id: z.string(),
+        });
+
+        const { id } = paramsSchema.parse(req.params);
+
+        const user = await prisma.users.delete({
+            where: {
+                id: Number(id),
+            },
+        });
+
+        return res.status(204).json({ deleted: user });
     }
 }
 
