@@ -1,13 +1,10 @@
 import { Router } from "express";
-import { SessionController } from "@/controllers/SessionsController";
 
-const sessionRoutes = Router();
-const sessionController = new SessionController();
+import { SessionsController } from "@/controllers/SessionsController";
 
-sessionRoutes.get("/", sessionController.index);
-sessionRoutes.post("/", sessionController.create);
-sessionRoutes.put("/:id", sessionController.update);
-sessionRoutes.get("/:id", sessionController.show);
-sessionRoutes.delete("/:id", sessionController.delete);
+const sessionsRoutes = Router();
+const sessionsController = new SessionsController();
 
-export { sessionRoutes };
+sessionsRoutes.post("/", sessionsController.create);
+
+export { sessionsRoutes };

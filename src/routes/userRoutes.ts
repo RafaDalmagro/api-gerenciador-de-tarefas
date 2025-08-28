@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { UserController } from "@/controllers/UsersController";
+import { UsersController } from "@/controllers/UsersController";
 
-const userRoutes = Router();
-const userController = new UserController();
+const usersRoutes = Router();
+const usersController = new UsersController();
 
-userRoutes.post("/", userController.create);
-userRoutes.get("/", userController.index);
-userRoutes.get("/:id", userController.show);
-userRoutes.put("/:id", userController.update);
-userRoutes.delete("/:id", userController.delete);
+usersRoutes.post("/", usersController.create);
+usersRoutes.get("/", usersController.index);
+usersRoutes.get("/:id", usersController.show);
+usersRoutes.put("/:id", usersController.update);
+usersRoutes.delete("/:id", usersController.delete);
 
-export { userRoutes };
+export { usersRoutes };

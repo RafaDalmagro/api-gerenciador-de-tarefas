@@ -4,7 +4,7 @@ import { hash } from "bcrypt";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
 
-class UserController {
+class UsersController {
     async index(req: Request, res: Response, next: NextFunction) {
         const users = await prisma.users.findMany({
             select: {
@@ -128,4 +128,4 @@ class UserController {
     }
 }
 
-export { UserController };
+export { UsersController };

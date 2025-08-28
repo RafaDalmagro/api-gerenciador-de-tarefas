@@ -3,7 +3,7 @@ import { prisma } from "@/database/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
 
-class TaskHistoryController {
+class TasksHistoryController {
     async index(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json();
     }
@@ -24,4 +24,4 @@ class TaskHistoryController {
     }
 }
 
-export { TaskHistoryController };
+export { TasksHistoryController };

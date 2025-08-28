@@ -3,7 +3,7 @@ import { prisma } from "@/database/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
 
-class TeamController {
+class TeamsController {
     async index(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json();
     }
@@ -32,4 +32,4 @@ class TeamController {
     }
 }
 
-export { TeamController };
+export { TeamsController };

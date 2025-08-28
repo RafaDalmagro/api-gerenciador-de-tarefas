@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { TaskHistoryController } from "@/controllers/TasksHistoryController";
+import { TasksHistoryController } from "@/controllers/TasksHistoryController";
 
-const taskHistoryRoutes = Router();
-const taskHistoryController = new TaskHistoryController();
+const tasksHistoryRoutes = Router();
+const tasksHistoryController = new TasksHistoryController();
 
-taskHistoryRoutes.get("/", taskHistoryController.index);
-taskHistoryRoutes.post("/", taskHistoryController.create);
+tasksHistoryRoutes.get("/", tasksHistoryController.index);
+tasksHistoryRoutes.post("/", tasksHistoryController.create);
 
-export { taskHistoryRoutes };
+export { tasksHistoryRoutes };

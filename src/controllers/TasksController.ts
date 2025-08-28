@@ -3,7 +3,7 @@ import { prisma } from "@/database/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
 
-class TaskController {
+class TasksController {
     async index(req: Request, res: Response, next: NextFunction) {
         return res.status(200).json({ message: "Index" });
     }
@@ -56,4 +56,4 @@ class TaskController {
     }
 }
 
-export { TaskController };
+export { TasksController };
