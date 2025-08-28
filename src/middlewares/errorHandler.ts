@@ -12,9 +12,11 @@ export const errorHandler = (
         return res.status(err.statusCode).json({ message: err.message });
     }
     if (err instanceof ZodError) {
+        const issues = JSON.parse(err.message);
+
         return res
             .status(400)
-            .json({ message: "Validation error", issues: err });
+            .json({ message: "Validation error", issues: issues[0].message });
     }
 
     return res.status(500).json({ message: err.message });

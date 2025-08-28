@@ -2,26 +2,47 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "@/database/prisma";
 import { z } from "zod";
 import { AppError } from "@/utils/appError";
+import { compare } from "bcrypt";
+import { authConfig } from "@/config/authConfig";
+import jwt from "jsonwebtoken";
 
 class SessionsController {
-    async index(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ message: "Index" });
-    }
-
     async create(req: Request, res: Response, next: NextFunction) {
-        return res.status(201).json({ message: "Create" });
-    }
+        const bodySchema = z.object({
+            email: z.email("Invalid email format"),
+            password: z
+                .string()
+                .min(8, "Password must be at least 8 characters long"),
+        });
 
-    async update(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ message: "Update" });
-    }
+        const { email, password } = bodySchema.parse(req.body);
 
-    async show(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ message: "Show" });
-    }
+        const user = await prisma.users.findFirst({
+            where: {
+                email,
+            },
+        });
 
-    async delete(req: Request, res: Response, next: NextFunction) {
-        return res.status(204).json({ message: "Delete" });
+        if (!user) {
+            throw new AppError("Invalid email or password", 401);
+        }
+
+        const passwordMatched = await compare(password, user.password);
+
+        if (!passwordMatched) {
+            throw new AppError("Invalid email or password", 401);
+        }
+
+        const { secret, expiresIn } = authConfig.jwt;
+
+        const token = jwt.sign({ role: user.role ?? "member" }, secret, {
+            subject: String(user.id),
+            expiresIn,
+        });
+
+        const { password: hashedPassword, ...userWithoutPassword } = user;
+
+        return res.status(201).json({ token, user: userWithoutPassword });
     }
 }
 
