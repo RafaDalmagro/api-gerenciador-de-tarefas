@@ -67,8 +67,8 @@ model Tasks {
   id          Int        @id @default(autoincrement())
   title       String
   description String
-  status      TaskStatus
-  priority    Priority
+  status      TaskStatus @default(pending)
+  priority    Priority   @default(medium)
   assignedTo  Int
   teamId      Int
   createdAt   DateTime   @default(now())

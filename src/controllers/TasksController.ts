@@ -20,25 +20,14 @@ class TasksController {
             req.body
         );
 
-        // const task: Tasks = await prisma.tasks.create({
-        //     data: {
-        //         title,
-        //         description,
-        //         assignedTo,
-        //         teamId,
-        //         status: "pending",
-        //         priority: "medium",
-        //     },
-        // });
-
-        const task: Tasks = {
-            title,
-            description,
-            assignedTo,
-            teamId,
-            status: "pending",
-            priority: "medium",
-        };
+        const task: Tasks = await prisma.tasks.create({
+            data: {
+                title,
+                description,
+                assignedTo,
+                teamId,
+            },
+        });
 
         return res.status(201).json(task);
     }
