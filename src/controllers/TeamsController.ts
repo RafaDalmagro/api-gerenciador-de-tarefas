@@ -16,7 +16,16 @@ class TeamsController {
 
         const { name, description } = bodySchema.parse(req.body);
 
-        return res.status(200).json({ name, description });
+        const team = await prisma.teams.create({
+            data: {
+                name,
+                description,
+            },
+        });
+
+        return res
+            .status(200)
+            .json({ message: "Team created successfully", team });
     }
 
     async update(req: Request, res: Response, next: NextFunction) {

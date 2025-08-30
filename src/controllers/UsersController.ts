@@ -15,6 +15,9 @@ class UsersController {
                 createdAt: true,
                 updatedAt: true,
             },
+            orderBy: {
+                id: "asc",
+            },
         });
 
         return res.status(200).json({ users });
@@ -51,7 +54,9 @@ class UsersController {
             },
         });
 
-        return res.status(201).json(user);
+        const { password: pass, ...userWithoutPassword } = user;
+
+        return res.status(201).json(userWithoutPassword);
     }
 
     async update(req: Request, res: Response, next: NextFunction) {
