@@ -48,7 +48,7 @@ class TasksController {
             description: z.string().min(5).optional(),
             status: z.enum(["pending", "in_progress", "completed"]).optional(),
             assignedTo: z.int().optional(),
-            teamId: z.int().optional(),
+            teamId: z.int(),
         });
 
         const { id } = paramsSchema.parse(req.params);
@@ -74,7 +74,7 @@ class TasksController {
             },
         });
 
-        return res.status(200).json({ message: "Update" });
+        return res.status(200).json({ taskPrevious, updatedTask });
     }
 
     async show(req: Request, res: Response, next: NextFunction) {

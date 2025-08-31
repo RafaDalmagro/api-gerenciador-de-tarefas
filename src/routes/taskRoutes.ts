@@ -1,14 +1,40 @@
 import { Router } from "express";
 import { TasksController } from "@/controllers/TasksController";
 import { ensureAuthenticated } from "@/middlewares/ensureAuthenticate";
+import { verifyUserAuthorization } from "@/middlewares/verifyUserAuthorization";
+import { verifyUserTeam } from "@/middlewares/verifyUserTeam";
+import { verifyUserTask } from "@/middlewares/verifyUserTask";
 
 const tasksRoutes = Router();
 const tasksController = new TasksController();
 
-tasksRoutes.get("/", ensureAuthenticated, tasksController.index);
-tasksRoutes.post("/", ensureAuthenticated, tasksController.create);
-tasksRoutes.put("/:id", ensureAuthenticated, tasksController.update);
-tasksRoutes.get("/:id", ensureAuthenticated, tasksController.show);
-tasksRoutes.delete("/:id", ensureAuthenticated, tasksController.delete);
+tasksRoutes.use(ensureAuthenticated);
+
+tasksRoutes.get(
+    "/",
+    verifyUserAuthorization(["admin", "member"]),
+    tasksController.index
+);
+tasksRoutes.post(
+    "/",
+    verifyUserAuthorization(["admin"]),
+    tasksController.create
+);
+tasksRoutes.put(
+    "/:id",
+    verifyUserAuthorization(["admin", "member"]),
+    verifyUserTask,
+    tasksController.update
+);
+tasksRoutes.get(
+    "/:id",
+    verifyUserAuthorization(["admin", "member"]),
+    tasksController.show
+);
+tasksRoutes.delete(
+    "/:id",
+    verifyUserAuthorization(["admin"]),
+    tasksController.delete
+);
 
 export { tasksRoutes };
