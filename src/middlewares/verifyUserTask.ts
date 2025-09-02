@@ -8,7 +8,7 @@ export async function verifyUserTask(
     next: NextFunction
 ) {
     const user = req.user;
-    const { taskId } = req.params;
+    const { id } = req.params;
 
     if (!user) {
         throw new AppError("User is not authorized", 401);
@@ -16,13 +16,13 @@ export async function verifyUserTask(
 
     const isUserTask = await prisma.tasks.findFirst({
         where: {
-            id: Number(taskId),
+            id: Number(id),
             assignedTo: Number(user.id),
         },
     });
 
-    if (!isUserTask) {  
-        throw new AppError(`This is not your task, Task id: ${taskId}`, 401);
+    if (!isUserTask) {
+        throw new AppError(`This is not your task, Task id: ${id}`, 401);
     }
 
     next();
