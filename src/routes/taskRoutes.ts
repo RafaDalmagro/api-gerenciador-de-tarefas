@@ -4,9 +4,11 @@ import { ensureAuthenticated } from "@/middlewares/ensureAuthenticate";
 import { verifyUserAuthorization } from "@/middlewares/verifyUserAuthorization";
 import { verifyUserTeam } from "@/middlewares/verifyUserTeam";
 import { verifyUserTask } from "@/middlewares/verifyUserTask";
+import { TasksStatusController } from "@/controllers/TasksStatusController";
 
 const tasksRoutes = Router();
 const tasksController = new TasksController();
+const tasksStatusController = new TasksStatusController();
 
 tasksRoutes.use(ensureAuthenticated);
 
@@ -19,6 +21,11 @@ tasksRoutes.post(
     "/",
     verifyUserAuthorization(["admin"]),
     tasksController.create
+);
+tasksRoutes.patch(
+    "/:id/status",
+    verifyUserAuthorization(["admin", "member"]),
+    tasksStatusController.update
 );
 tasksRoutes.put(
     "/:id",

@@ -7,7 +7,7 @@ class TasksController {
     async index(req: Request, res: Response, next: NextFunction) {
         const tasks = await prisma.tasks.findMany({
             orderBy: {
-                createdAt: "desc",
+                createdAt: "asc",
             },
         });
 
