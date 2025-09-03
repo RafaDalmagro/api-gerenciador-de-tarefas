@@ -30,9 +30,10 @@ class UsersController {
             password: z
                 .string()
                 .min(8, "Password must be at least 8 characters long"),
+                role: z.enum(["admin", "member"]).optional(),
         });
 
-        const { name, email, password } = bodySchema.parse(req.body);
+        const { name, email, password, role } = bodySchema.parse(req.body);
 
         const userWithSameEmail = await prisma.users.findFirst({
             where: {
@@ -51,6 +52,7 @@ class UsersController {
                 name,
                 email,
                 password: hashedPassword,
+                role,
             },
         });
 
