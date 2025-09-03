@@ -5,10 +5,38 @@ import { AppError } from "@/utils/appError";
 
 class TasksController {
     async index(req: Request, res: Response, next: NextFunction) {
+        if (!req.user) {
+            return next(new AppError("User not authenticated", 401));
+        }
+
+        const userId = req.user.id;
+
+        const memberships = await prisma.team_Members.findMany({
+            where: { userId: Number(userId) },
+            select: { teamId: true },
+        });
+
+        const teamIds = memberships.map((m) => m.teamId);
+
+        if (teamIds.length === 0) {
+            throw new AppError("User is not part of any team", 403);
+        }
+
         const tasks = await prisma.tasks.findMany({
-            orderBy: {
-                createdAt: "asc",
+            where: {
+                teamId: { in: teamIds },
             },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                status: true,
+                createdAt: true,
+                updatedAt: true,
+                user: { select: { name: true } },
+                team: { select: { name: true } },
+            },
+            orderBy: { createdAt: "asc" },
         });
 
         return res.status(200).json({ tasks });

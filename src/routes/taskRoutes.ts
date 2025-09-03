@@ -2,7 +2,6 @@ import { Router } from "express";
 import { TasksController } from "@/controllers/TasksController";
 import { ensureAuthenticated } from "@/middlewares/ensureAuthenticate";
 import { verifyUserAuthorization } from "@/middlewares/verifyUserAuthorization";
-import { verifyUserTeam } from "@/middlewares/verifyUserTeam";
 import { verifyUserTask } from "@/middlewares/verifyUserTask";
 import { TasksStatusController } from "@/controllers/TasksStatusController";
 
