@@ -168,7 +168,7 @@ docker-compose up -d
 
 ## 🌐 Deploy
 
-A aplicação está preparada para ser publicada na plataforma [Render](https://render.com/), com suporte a PostgreSQL e variáveis de ambiente definidas via painel.
+A aplicação está preparada para ser publicada na plataforma [Render](https://render.com/), com suporte a PostgreSQL e variáveis de ambiente definidas via painel. Projeto feito deploy na URL "https://api-gerenciador-de-tarefas-ljbp.onrender.com" caso queiram testar.
 
 ---
 
@@ -178,7 +178,3 @@ A aplicação está preparada para ser publicada na plataforma [Render](https://
 - 📘 Desafio proposto por: [Rocketseat](https://www.rocketseat.com.br/)
 
 ---
-
-## 📘 Licença
-
-Este projeto está licenciado sob a licença **ISC**.

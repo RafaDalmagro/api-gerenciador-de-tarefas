@@ -19,7 +19,7 @@ collection:
         meta:
           id: req_e7d9ec10868849f297be8c9aa66b1822
           created: 1756308268834
-          modified: 1756585920235
+          modified: 1756946863995
           isPrivate: false
           description: ""
           sortKey: -1756344518457
@@ -28,9 +28,10 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"name": "Feijao Tristão de Souza",
-            	"email": "feijao@123.com",
-            	"password":"12345678"
+            		"name": "Rafael",
+                    "email": "rafael@example.com",
+                    "password": "12345678",
+            		"role":"admin"
             }
         headers:
           - name: Content-Type
@@ -566,7 +567,7 @@ collection:
         meta:
           id: req_4d7b62f1b7094ca5ab80283cf99c2016
           created: 1756399158311
-          modified: 1756859222931
+          modified: 1756947030103
           isPrivate: false
           description: ""
           sortKey: -1756399158311
@@ -575,7 +576,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"email":"rafael@123.com",
+            	"email":"rafael@example.com",
             	"password":"12345678"
             }
         headers:
@@ -699,6 +700,8 @@ environments:
       meta:
         id: env_97664a00844646a5945ae27ec8c03268
         created: 1756308352157
-        modified: 1756308355808
+        modified: 1756946832703
         isPrivate: false
         sortKey: 1756308352157
+      data:
+        BASE_URL: https://api-gerenciador-de-tarefas-ljbp.onrender.com
