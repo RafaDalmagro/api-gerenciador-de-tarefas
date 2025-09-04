@@ -10,7 +10,8 @@
         "dev": "tsx --watch src/server.ts",
         "build": "tsup src --out-dir build",
         "test": "set NODE_OPTIONS=--experimental-vm-modules && npx jest --watchAll --runInBand",
-        "start": "node build/server.js"
+        "start": "node build/server.js",
+        "start:dev": "node --env-file=.env build/server.js"
     },
     "author": "Rafael Lima Dalmagro",
     "license": "ISC",
@@ -35,6 +36,7 @@
         "supertest": "^7.1.4",
         "ts-jest": "^29.4.1",
         "ts-node": "^10.9.2",
+        "tsup": "^8.5.0",
         "typescript": "^5.9.2"
     }
 }
